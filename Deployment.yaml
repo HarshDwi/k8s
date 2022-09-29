@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-dep
+spec:
+  selector:
+    matchLabels:
+      app: my-dep
+  template:
+    metadata:
+      labels:
+        app: my-dep
+    spec:
+    #creating volume claim
+      volumes:                  
+        - name: my-vol
+          persistentVolumeClaim:
+            claimName: pvc
+      containers:
+      - name: my-dep
+        image: nginx
+        volumeMounts:
+          - mountPath: /var/www/html              #data/logs will be stored at this path(within container)
+            name: my-vol                        #mount this volume
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        
+
